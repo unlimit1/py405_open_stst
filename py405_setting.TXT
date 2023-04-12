@@ -31,4 +31,17 @@ acti.bat  : py405\Scripts\activate
 - git push -u github main 
 - ?? 아무런 인증 없이 push 되네... 
 
+** 개인 gitlab
+- http://unlimit1.iptime.org:11580/      root 로긴 
+- create blank projec 
+- name : py405_open_stst
+- create
+- README.md 를 다운 받은 뒤 삭제
+
+- git remote add dsm7gl http://unlimit1.iptime.org:11580/gitlab-instance-432e699d/py405_open_stst.git
+- git remote -v
+- git pull --allow-unrelated-histories dsm7gl main
+- git push -u dsm7gl main
+
+
 ** Hashicrop Valut설치
