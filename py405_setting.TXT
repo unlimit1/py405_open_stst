@@ -11,13 +11,24 @@ acti.bat  : py405\Scripts\activate
 > python.exe -m pip install --upgrade pip
 
 ** git init
+> cd \dev\python\py405_open_stst
+> git init
+> git add .
+> git commit -m "최초 등록"
+> git branch -M main
 
-** github 새로운 Repository 생성 
+** github 새로운 Repository 생성 및 remote 등록
 - GitHub 홈페이지에서 로그인 후, 우측 상단의 + 버튼 클릭 New repository 선택
 - Repository 이름 입력 : py405_open_stst
 - Public (또는 Private) 선택
 - Initialize this repository with : Add a README 옵션 선택
 (This will set "main" as the default branch. Change the default name in your settings.)
 - Create repository 버튼 클릭
+- Code > Local > HTTPS 에서 주소copy : https://github.com/unlimit1/py405_open_stst.git
+- git remote add github https://github.com/unlimit1/py405_open_stst.git
+- git remote -v
+- git pull --allow-unrelated-histories github main
+- git push -u github main 
+- ?? 아무런 인증 없이 push 되네... 
 
 ** Hashicrop Valut설치
