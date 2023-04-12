@@ -11,8 +11,15 @@ services:
       - ./vault/data:/vault/data
       - ./vault/logs:/vault/logs
       - ./vault/file:/vault/file
+
     ports:
       - 8200:8200
-    cap_add:
-      - IPC_LOCK
+
+    environment:
+      VAULT_LOCAL_CONFIG: '{"disable_mlock": true}'
+      VAULT_ADDR: "http://0.0.0.0:8200"
+      SKIP_SETCAP: "true"
+
+#    cap_add:
+#      - IPC_LOCK
     command: vault server -config=/vault/config/vault-config.hcl
