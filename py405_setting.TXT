@@ -1,0 +1,23 @@
+> mkdir \dev\python\py405_open_stst
+> cd \dev\python\py405_open_stst
+> py -3.8 -m venv py405 -> 설치되어 있지 않아 오류... 가상win에는 3.9, 3.11 설치되어 있음. xpenology 는 3.8
+> py -3.9 -m venv py405
+
+acti.bat  : py405\Scripts\activate
+.gitignore : py405\
+
+> acti
+> pip list
+> python.exe -m pip install --upgrade pip
+
+** git init
+
+** github 새로운 Repository 생성 
+- GitHub 홈페이지에서 로그인 후, 우측 상단의 + 버튼 클릭 New repository 선택
+- Repository 이름 입력 : py405_open_stst
+- Public (또는 Private) 선택
+- Initialize this repository with : Add a README 옵션 선택
+(This will set "main" as the default branch. Change the default name in your settings.)
+- Create repository 버튼 클릭
+
+** Hashicrop Valut설치
