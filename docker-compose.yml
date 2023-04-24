@@ -1,25 +1,13 @@
-#docker_compose.yml
-
-version: "2"
+version: "0.1"
 
 services:
-  vault:
-    image: vault:1.13.1
-    container_name: vault
+  o_ubt:
+    image: ubuntu:22.04
+    container_name: o_ubt
+    # tty: true 
+    stdin_open: true # 없으면 시작하자 마자 exit
+    
     volumes:
-      - ./vault/config:/vault/config
-      - ./vault/data:/vault/data
-      - ./vault/logs:/vault/logs
-      - ./vault/file:/vault/file
+      - .:/root/py405_open_stat
 
-    ports:
-      - 8200:8200
-
-    environment:
-      VAULT_LOCAL_CONFIG: '{"disable_mlock": true}'
-      VAULT_ADDR: "http://0.0.0.0:8200"
-      SKIP_SETCAP: "true"
-
-#    cap_add:
-#      - IPC_LOCK
-    command: vault server -config=/vault/config/vault-config.hcl
+    
