@@ -6,6 +6,7 @@ FROM ubuntu:22.04
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
+    # python3-venv \
     openssh-server \
     nano \
     curl \
@@ -24,5 +25,5 @@ CMD ["/usr/sbin/sshd", "-D"]
 EXPOSE 22
 
 # docker build -t o_ubt_image --file Dockerfile_o_ubt .
-# docker run -d -p 8022:22 -v ./py/:/app/ --name o_ubt o_ubt_image
+# docker run -d -p 8022:22 -v ./py:/pyapp --name o_ubt o_ubt_image
 # ssh root@192.168.0.108 -p 8022
