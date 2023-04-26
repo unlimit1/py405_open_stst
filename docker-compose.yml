@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile_o_ubt
 
-    # docker run -d -p 8022:22 -v ./py:/pyapp --name o_ubt o_ubt_image  
+    # docker run -d -p 8022:22 -v .:/py405_open_stat --name o_ubt o_ubt_image  
     container_name: o_ubt
     # tty: true 
     stdin_open: true # 없으면 시작하자 마자 exit
