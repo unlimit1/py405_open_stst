@@ -2,6 +2,9 @@ FROM ubuntu:22.04
 
 # MAINTAINER unlimit <unlimit.gcp@gmail.com>
 
+# Ubuntu 패키지 소스 리스트를 수정하여 Kakao 미러 사이트를 사용하도록 변경합니다.
+RUN sed -i 's/archive.ubuntu.com/mirror.kakao.com/g' /etc/apt/sources.list
+
 # 필요한 패키지 및 소프트웨어 설치
 RUN apt-get update 
 
