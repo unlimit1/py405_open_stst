@@ -23,8 +23,6 @@ for page_num in range(1, pages+1):
     df = df.dropna(how='all')
     # 'N' 열의 데이터 타입을 정수형으로 변환
     df['N'] = df['N'].astype(int)
-    # 현재 페이지 번호 출력
-    print(f"{page_num} ", end='')
     # 변환된 데이터프레임을 리스트에 추가
     data.append(df)
 
