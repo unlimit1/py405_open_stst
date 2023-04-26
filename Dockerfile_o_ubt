@@ -3,10 +3,14 @@ FROM ubuntu:22.04
 # MAINTAINER unlimit <unlimit.gcp@gmail.com>
 
 # 필요한 패키지 및 소프트웨어 설치
-RUN apt-get update && apt-get install -y \
+RUN apt-get update 
+
+RUN apt-get install -y \
     python3 \
     python3-pip \
-    # python3-venv \
+    python3-venv
+
+RUN apt-get install -y \
     openssh-server \
     nano \
     curl \

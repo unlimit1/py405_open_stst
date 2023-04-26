@@ -1,13 +1,18 @@
-version: "0.1"
+version: "3.7"
 
 services:
-  o_ubt:
-    image: ubuntu:22.04
+  o_ubt: # docker build -t o_ubt_image --file Dockerfile_o_ubt .
+    #image: o_ubt_image
+    build:
+      context: .
+      dockerfile: Dockerfile_o_ubt
+      
+    #image: o_ubt_image
     container_name: o_ubt
     # tty: true 
     stdin_open: true # 없으면 시작하자 마자 exit
     
     volumes:
-      - .:/root/py405_open_stat
+      - .:/py405_open_stat
 
     
