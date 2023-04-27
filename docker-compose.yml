@@ -15,7 +15,7 @@ services:
     ports:
       - "8022:22"  
 
-    command: 
+    # command: 
 
     volumes:
       - ./py:/py405_open_stst/py
