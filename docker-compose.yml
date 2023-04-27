@@ -7,15 +7,15 @@ services:
       context: .
       dockerfile: Dockerfile_o_ubt
 
-    # docker run -d -p 8022:22 -v .:/py405_open_stat --name o_ubt o_ubt_image  
+    # docker run -d -p 8022:22 -v ./py:/py405_open_stst/py --name o_ubt o_ubt_image  
     container_name: o_ubt
     # tty: true 
     stdin_open: true # 없으면 시작하자 마자 exit
-    
-    volumes:
-      - .:/py405_open_stat
 
     ports:
       - "8022:22"  
 
-    
+    command: 
+
+    volumes:
+      - ./py:/py405_open_stst/py

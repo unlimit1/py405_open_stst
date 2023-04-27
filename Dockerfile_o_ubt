@@ -24,6 +24,12 @@ RUN mkdir /var/run/sshd
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
+# App 설정 
+RUN mkdir /py405_open_stst 
+RUN cd /py405_open_stst
+COPY ./requirements.txt /py405_open_stst
+RUN pip install -r /py405_open_stst/requirements.txt
+
 # sshd 데몬 실행
 CMD ["/usr/sbin/sshd", "-D"]
 
@@ -31,5 +37,5 @@ CMD ["/usr/sbin/sshd", "-D"]
 EXPOSE 22
 
 # docker build -t o_ubt_image --file Dockerfile_o_ubt .
-# docker run -d -p 8022:22 -v ./py:/pyapp --name o_ubt o_ubt_image
+# docker run -d -p 8022:22 -v ./py:/py405_open_stst/py --name o_ubt o_ubt_image
 # ssh root@192.168.0.108 -p 8022
