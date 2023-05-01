@@ -1,7 +1,32 @@
 version: "3.7"
 
 services:
+  o_maria:
+    image: mariadb:10.11.2
+    container_name: o_maria
+    volumes:
+      - ./mariadb/data:/var/lib/mysql  
+      - ./mariadb/init:/docker-entrypoint-initdb.d
+    
+    environment:
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      # - MARIADB_ROOT_PASSWORD_HASH=*DB469070DB0AD0CA0B93040D166D7FC4713D6961
+      # - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=yes
+      # - MARIADB_RANDOM_ROOT_PASSWORD=yes
+      # - MYSQL_DATABASE=finance
+      # - MYSQL_USER=u_fina
+      # - MYSQL_PASSWORD=finapassword
+    command: 
+      - --port=3666
+      - --lower_case_table_names=1
+      - --default-time-zone=Asia/Seoul
+    ports:
+      - "3666:3666"  
+    restart: always
+ 
   o_ubt: # docker build -t o_ubt_image --file Dockerfile_o_ubt .
+    depends_on:
+      - o_maria
     image: o_ubt_image
     build:
       context: .
