@@ -43,4 +43,4 @@ services:
     # command: 
 
     volumes:
-      - ./py:/py405_open_stst/py
+      - ./:/py405_open_stst/
