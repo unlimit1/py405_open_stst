@@ -12,8 +12,7 @@ url = 'https://finance.naver.com/item/sise_day.nhn?code=005930&page='
 def get_code():
     url = 'https://finance.naver.com/sise/sise_market_sum.nhn?sosok=0&page='
     code_list = []
-    kospi_page = 42 + 1
-    for page in range(1, kospi_page): # 50개씩 나오는 페이지의 크롤링 범위
+    for page in range(1, 49): # 50개씩 나오는 페이지의 크롤링 범위, 코스피는 41 페이지까지지만 충분히 넓게 설정
         res = requests.get(url + str(page))
         soup = BeautifulSoup(res.content, 'html.parser')
         data = soup.select('div.box_type_l tbody tr')
@@ -79,9 +78,15 @@ curs = conn.cursor()
 
 # all_ohlcv['open'] = all_ohlcv['open'].astype(int) # 요 변환으로도 , 를 처리하지 못함.... 아예 상위 수집단계에서 replace처리
 # all_ohlcv df 오류 찾기 위해 파일 생성
-all_ohlcv.to_csv('all_ohlcv-'+datetime.now().strftime('%Y%m%d_%H%M%S') + '.csv')
+# all_ohlcv.to_csv('all_ohlcv-'+datetime.datetime.now().strftime('%Y%m%d_%H%M%S') + '.csv') -> 신규 종목은 과거 날짜 데이터가 없어서 오류 발생!
+print(f'all_ohlcv 크롤링 건수 : {len(all_ohlcv)} rows')
+    # print(all_ohlcv.iloc[200:210])
+    # print(all_ohlcv.iloc[200:210,2].apply(lambda x: len(x)))
+    # all_ohlcv = all_ohlcv.dropna(subset=['date']) # 이 문장으로 처리가 안되어 아래와 같이 코드 수정
+all_ohlcv = all_ohlcv[all_ohlcv['date'] != '']
+print(f'all_ohlcv 거래일자 데이터 없는 건 삭제 처리 후 남은 건수 : {len(all_ohlcv)} rows')
+
 ins_values = [tuple(x) for x in all_ohlcv.values] #df -> tuble list 로 변환
-#print(ins_values[0:3])
 ins_sql = """
 replace into finance.naver_daily_ohlcv
 (
