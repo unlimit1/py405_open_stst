@@ -5,6 +5,9 @@ FROM ubuntu:22.04
 # Ubuntu 패키지 소스 리스트를 수정하여 Kakao 미러 사이트를 사용하도록 변경합니다.
 RUN sed -i 's/archive.ubuntu.com/mirror.kakao.com/g' /etc/apt/sources.list
 
+# --no-cache 옵션 반영
+#ARG CACHEBUST=1
+
 # 필요한 패키지 및 소프트웨어 설치
 RUN apt-get update && apt-get install -y \
     python3 \
@@ -28,6 +31,7 @@ RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/
 RUN mkdir /py405_open_stst 
 RUN cd /py405_open_stst
 COPY ./requirements.txt /py405_open_stst
+RUN python3 -m pip install --upgrade pip
 RUN pip install -r /py405_open_stst/requirements.txt
 
 # sshd 데몬 실행
@@ -36,6 +40,6 @@ CMD ["/usr/sbin/sshd", "-D"]
 # 포트 노출
 EXPOSE 22
 
-# docker build -t o_ubt_image --file Dockerfile_o_ubt .
+# docker build -t o_ubt_image --no-cache --file Dockerfile_o_ubt .
 # docker run -d -p 8022:22 -v ./py:/py405_open_stst/py --name o_ubt o_ubt_image
 # ssh root@192.168.0.108 -p 8022
