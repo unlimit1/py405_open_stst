@@ -1,0 +1,6 @@
+:: ssh-keygen -t rsa -b 4096 -f C:\dev\py405_open_stst\ssh-keys\id_rsa -N ""
+docker exec -uroot o_airf bash -c "chown airflow:root /home/airflow/.ssh/id_rsa; chmod 600 /home/airflow/.ssh/id_rsa"
+docker exec o_ubt bash -c "chmod 600 /root/.ssh/authorized_keys"
+
+ssh -i C:\dev\py405_open_stst\ssh-keys\id_rsa o_ubt_ssh108 -v
+ssh root@o_ubt -o
