@@ -2,4 +2,6 @@ mariadb/data/
 mariadb/log/
 vault/
 .vscode/
-
+airflow/logs/
+airflow/dags/__pycache__
+ssh-keys/known_hosts

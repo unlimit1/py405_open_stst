@@ -16,6 +16,7 @@ services:
       # - MYSQL_DATABASE=finance
       # - MYSQL_USER=u_fina
       # - MYSQL_PASSWORD=finapassword
+      - TZ=Asia/Seoul
     command: 
       - --port=3666
       - --lower_case_table_names=1
@@ -37,10 +38,50 @@ services:
     # tty: true 
     stdin_open: true # 없으면 시작하자 마자 exit
 
+    environment:
+      - TZ=Asia/Seoul
+
     ports:
       - "8022:22"  
 
-    # command: 
-
     volumes:
       - ./:/py405_open_stst/
+      - ./ssh-keys/id_rsa.pub:/root/.ssh/authorized_keys
+
+    # command: >
+    #   bash -c "ls"
+
+  o_airf: 
+    depends_on:
+      - o_maria
+      - o_ubt
+    image: apache/airflow:2.6.0-python3.10
+    #image: apache/airflow:latest
+    container_name: o_airf
+    tty: true # -t 
+    stdin_open: true # -i 없으면 시작하자 마자 exit
+
+    #privileged: true
+    environment:
+      # - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - TZ=Asia/Seoul
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=mysql://u_airflow:${MARIADB_AIRFROW_PASSWORD}@o_maria:3666/airflow
+      # - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW_CONN_MYSQL_CUSTOM=mysql://u_fina:${MARIADB_APP_FINANCE_PASSWORD}@o_maria:3666/finance
+
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      # - ./:/py405_open_stst/  # requirements.txt 때문에 했지만, airflow 를 위한 파이썬 패키지 환경은 변경하면 안될듯
+      - ./ssh-keys:/home/airflow/.ssh
+
+    command: > 
+      bash -c "
+               airflow db init && \
+               airflow users create --username admin --password airfadminpw --firstname YH --lastname L --role Admin --email admin@example.org && \
+               airflow webserver & \
+               airflow scheduler 
+              "
+    ports: 
+      - "8088:8080"  
+    

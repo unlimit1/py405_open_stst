@@ -5,8 +5,8 @@ FROM ubuntu:22.04
 # Ubuntu 패키지 소스 리스트를 수정하여 Kakao 미러 사이트를 사용하도록 변경합니다.
 RUN sed -i 's/archive.ubuntu.com/mirror.kakao.com/g' /etc/apt/sources.list
 
-# --no-cache 옵션 반영
-#ARG CACHEBUST=1
+# --no-cache 옵션 반영 
+#ARG DISABLE_CACHE
 
 # 필요한 패키지 및 소프트웨어 설치
 RUN apt-get update && apt-get install -y \
@@ -14,11 +14,13 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     python3-venv
 
+#pycairo 라이브러리를 설치하는 도중 'pkg-config'가 없어서 문제발생하여 pkg-config libcairo2-dev 추가
 RUN apt-get install -y \
     openssh-server \
     nano \
     curl \
     git \
+    pkg-config libcairo2-dev \ 
     && rm -rf /var/lib/apt/lists/*
 
 # SSH 설정
@@ -26,6 +28,9 @@ RUN echo 'root:qwer!@34' | chpasswd
 RUN mkdir /var/run/sshd
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
+# Generate SSH keys ... [-N new_passphrase]
+# RUN ssh-keygen -t rsa -b 4096 -f /root/.ssh/o_ubt_id -N ''  #Host로 파일 옮기기가 용이하지 않아 삭제. 
 
 # App 설정 
 RUN mkdir /py405_open_stst 

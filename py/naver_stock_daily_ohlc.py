@@ -71,7 +71,7 @@ end_time = datetime.datetime.now()
 print('Duration: ', end_time - start_time)
 
 # DB host 명은 docker-compose.yml 에서 정의한 DB 컨테이너 명
-conn = pymysql.connect(host='o_maria', port=int('3666'), user='u_fina', password='fina!@34', db='finance', charset='utf8')
+conn = pymysql.connect(host='o_maria', port=int('3666'), user='u_fina', password='dbfinapw', db='finance', charset='utf8')
 print(f'DB 접속 성공 : {conn}')
 curs = conn.cursor()
 
