@@ -6,22 +6,21 @@ import pymysql
 
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
 
-url = 'https://finance.naver.com/item/sise_day.nhn?code=005930&page='
-
 # 네이버 증권의 모든 종목 코드를 가져오는 함수
+# 코스피, 코스닥 모두 수집하도록 수정
 def get_code():
-    url = 'https://finance.naver.com/sise/sise_market_sum.nhn?sosok=0&page='
     code_list = []
-    for page in range(1, 49): # 50개씩 나오는 페이지의 크롤링 범위, 코스피는 41 페이지까지지만 충분히 넓게 설정
-        res = requests.get(url + str(page))
-        # res.encoding = 'euc-kr'  # 삼천리,ЛяУЕИЎ 로 깨짐.. 인코딩을 수동으로 지정... 해도 개선되지 않음
-        soup = BeautifulSoup(res.content, 'html.parser')
-        data = soup.select('div.box_type_l tbody tr')
-        for i in data:
-            if len(i.select('td')) > 1:
-                code = i.select('a')[0]['href'].split('=')[1]
-                code_name = i.select('a')[0].text
-                code_list.append([code, code_name])
+    for gu in range (0,2): # 0:코스피, 1:코스닥
+        for page in range(1, 100): # 50개씩 나오는 페이지의 크롤링 범위, 코스피는 41 페이지까지지만 충분히 넓게 설정
+            res = requests.get(f'https://finance.naver.com/sise/sise_market_sum.nhn?sosok={gu}&page={page}')
+            # res.encoding = 'euc-kr'  # 삼천리,ЛяУЕИЎ 로 깨짐.. 인코딩을 수동으로 지정... 해도 개선되지 않음
+            soup = BeautifulSoup(res.content, 'lxml') # 파서를 lxml, html.parser 다 적용해보았으나 개선되지 않음
+            data = soup.select('div.box_type_l tbody tr')
+            for i in data:
+                if len(i.select('td')) > 1:
+                    code = i.select('a')[0]['href'].split('=')[1]
+                    code_name = i.select('a')[0].text
+                    code_list.append([code, code_name])
     return code_list
 
 # ohlcv 데이터를 가져오는 함수
