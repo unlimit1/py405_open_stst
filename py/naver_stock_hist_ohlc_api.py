@@ -12,6 +12,7 @@ code_list_len = 0
 # 네이버 증권의 모든 종목 코드를 가져오는 함수
 # 코스피, 코스닥 모두 수집하도록 수정
 def get_code():
+    # return [['455890','KBSTAR 머니마켓액티브']] # 20230509현재 신규 상장 종목 테스트용 
     code_list = []
     for gu in range (0,2): # 0:코스피, 1:코스닥
         for page in range(1, 100): # 50개씩 나오는 페이지의 크롤링 범위, 코스피는 41 페이지까지지만 충분히 넓게 설정
@@ -31,13 +32,14 @@ def get_ohlcv_hist(code):
     # 조회 시작일과 종료일 세팅
     start_date = '19800101' # 충분한 과거 일자
 
-    # 종료일은 현재일자 5일전 일자로 세팅 datetime 패키지 import
+    # 종료일은 현재일자 5일전 일자로 세팅
     end_date = (datetime.datetime.now() - datetime.timedelta(days=5)).strftime('%Y%m%d')
 
     # API 호출
     # API output 의 가격은 액면분할을 고려한 수정 후 가격이나, 거래량은 수정된 값이 아님... 
     url = f'https://api.finance.naver.com/siseJson.naver?symbol={code}&requestType=1&startTime={start_date}&endTime={end_date}&timeframe=day'
     res = requests.get(url)
+    if len(res.content) < 100 : return pd.DataFrame() #신규상장종목으로 데이터가 없으면 헤더문자열만 70byte 만 있으므로 스킵
 
     # API 호출 결과를 디코딩하여 json으로 변환
     data = res.content.decode('utf-8')
@@ -94,39 +96,3 @@ curs.close()
 conn.close()
 
 print(f'작업 종료')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# # 조회할 종목 코드
-# code = '005930'
-
-# # 조회 시작일과 종료일
-# start_date = '20230101'; end_date = '20230501'
-
-# # API 호출
-# # API output 의 가격은 액면분할을 고려한 수정 후 가격이나, 거래량은 수정된 값이 아님... 
-# url = f'https://api.finance.naver.com/siseJson.naver?symbol={code}&requestType=1&startTime={start_date}&endTime={end_date}&timeframe=day'
-# res = requests.get(url)
-
-# # API 호출 결과를 디코딩하여 json으로 변환
-# data = res.content.decode('utf-8')
-# data = re.sub(r'\s+', '', data)
-# data = ast.literal_eval(data)# 문자열 리스트를 파이썬 리스트로 변환
-# df = pd.DataFrame(data[1:], columns=data[0])
-# df.insert(0, 'code', code) #df 첫 열에 stock_code 추가
-# print(df)
-
-# #  코스피와 코스닥 종목코드 및 종목명 한국 증권 거래소 크롤링  
