@@ -14,6 +14,7 @@ def get_code():
     code_list = []
     for page in range(1, 49): # 50개씩 나오는 페이지의 크롤링 범위, 코스피는 41 페이지까지지만 충분히 넓게 설정
         res = requests.get(url + str(page))
+        # res.encoding = 'euc-kr'  # 삼천리,ЛяУЕИЎ 로 깨짐.. 인코딩을 수동으로 지정... 해도 개선되지 않음
         soup = BeautifulSoup(res.content, 'html.parser')
         data = soup.select('div.box_type_l tbody tr')
         for i in data:
