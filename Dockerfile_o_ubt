@@ -25,6 +25,7 @@ RUN apt-get install -y \
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Seoul
 RUN apt-get install -y tzdata \
+    locales \
     && rm -rf /var/lib/apt/lists/*
 
 # SSH 설정
@@ -43,6 +44,7 @@ COPY ./requirements.txt /py405_open_stst
 RUN python3 -m pip install --upgrade pip
 RUN pip install -r /py405_open_stst/requirements.txt
 RUN ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
+RUN locale-gen en_US.UTF-8
 
 # sshd 데몬 실행
 CMD ["/usr/sbin/sshd", "-D"]

@@ -40,6 +40,7 @@ services:
 
     environment:
       - TZ=Asia/Seoul
+      - LANG=en_US.UTF-8
 
     ports:
       - "8022:22"  
