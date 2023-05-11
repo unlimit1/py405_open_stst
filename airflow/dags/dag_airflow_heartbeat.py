@@ -20,6 +20,6 @@ dag = DAG(
 
 bash_task = BashOperator(
     task_id='airflow_heartbeat_bash_ssh',
-    bash_command='ssh root@o_ubt python3 /py405_open_stst/py/airflow_heartbeat.py',
+    bash_command='ssh -o StrictHostKeyChecking=no root@o_ubt python3 /py405_open_stst/py/airflow_heartbeat.py',
     dag=dag
 )

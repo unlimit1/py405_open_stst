@@ -77,11 +77,29 @@ services:
 
     command: > 
       bash -c "
+               sed -i 's|default_timezone = utc|default_timezone = Asia/Seoul|g' /opt/airflow/airflow.cfg
+               sed -i 's|default_ui_timezone = UTC|default_ui_timezone = Asia/Seoul|g' /opt/airflow/airflow.cfg
+               ssh-keygen -f "/home/airflow/.ssh/known_hosts" -R "o_ubt"
                airflow db init && \
                airflow users create --username admin --password airfadminpw --firstname YH --lastname L --role Admin --email admin@example.org && \
                airflow webserver & \
                airflow scheduler 
               "
     ports: 
-      - "8088:8080"  
+      - "8081:8080"  
+
+  o_cadv:
+    image: gcr.io/cadvisor/cadvisor:v0.47.0
+    container_name: o_cadv
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    ports:
+      - 8082:8080
+    privileged: true
+    devices:
+      - /dev/kmsg
     

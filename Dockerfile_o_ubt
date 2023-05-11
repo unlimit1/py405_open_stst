@@ -20,7 +20,11 @@ RUN apt-get install -y \
     nano \
     curl \
     git \
-    pkg-config libcairo2-dev \ 
+    pkg-config libcairo2-dev 
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/Seoul
+RUN apt-get install -y tzdata \
     && rm -rf /var/lib/apt/lists/*
 
 # SSH 설정
@@ -38,6 +42,7 @@ RUN cd /py405_open_stst
 COPY ./requirements.txt /py405_open_stst
 RUN python3 -m pip install --upgrade pip
 RUN pip install -r /py405_open_stst/requirements.txt
+RUN ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 
 # sshd 데몬 실행
 CMD ["/usr/sbin/sshd", "-D"]

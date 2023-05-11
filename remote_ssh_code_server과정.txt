@@ -1,0 +1,152 @@
+[11:06:54.578] Log Level: 2
+[11:06:54.754] VS Code version: 1.78.1
+[11:06:54.754] Remote-SSH version: remote-ssh@0.102.0
+[11:06:54.754] win32 x64
+[11:06:54.770] SSH Resolver called for "ssh-remote+o_ubt_ssh108", attempt 1
+[11:06:54.770] "remote.SSH.useLocalServer": false
+[11:06:54.771] "remote.SSH.showLoginTerminal": false
+[11:06:54.771] "remote.SSH.remotePlatform": {"192.168.0.108":"linux","o_ubt_ssh":"linux","o_ubt_ssh108":"linux","o_ubt_ssh115":"linux"}
+[11:06:54.771] "remote.SSH.path": undefined
+[11:06:54.771] "remote.SSH.configFile": undefined
+[11:06:54.771] "remote.SSH.useFlock": true
+[11:06:54.771] "remote.SSH.lockfilesInTmp": false
+[11:06:54.771] "remote.SSH.localServerDownload": auto
+[11:06:54.771] "remote.SSH.remoteServerListenOnSocket": false
+[11:06:54.772] "remote.SSH.showLoginTerminal": false
+[11:06:54.772] "remote.SSH.defaultExtensions": []
+[11:06:54.772] "remote.SSH.loglevel": 2
+[11:06:54.772] "remote.SSH.enableDynamicForwarding": true
+[11:06:54.772] "remote.SSH.enableRemoteCommand": false
+[11:06:54.772] "remote.SSH.serverPickPortsFromRange": {}
+[11:06:54.772] "remote.SSH.serverInstallPath": {}
+[11:06:54.777] SSH Resolver called for host: o_ubt_ssh108
+[11:06:54.778] Setting up SSH remote "o_ubt_ssh108"
+[11:06:54.781] Using commit id "6a995c4f4cc2ced6e3237749973982e751cb0bf9" and quality "stable" for server
+[11:06:54.784] Install and start server if needed
+[11:06:54.787] Checking ssh with "C:\Windows\system32\ssh.exe -V"
+[11:06:54.795] Got error from ssh: spawn C:\Windows\system32\ssh.exe ENOENT
+[11:06:54.795] Checking ssh with "C:\Windows\ssh.exe -V"
+[11:06:54.797] Got error from ssh: spawn C:\Windows\ssh.exe ENOENT
+[11:06:54.797] Checking ssh with "C:\Windows\System32\Wbem\ssh.exe -V"
+[11:06:54.802] Got error from ssh: spawn C:\Windows\System32\Wbem\ssh.exe ENOENT
+[11:06:54.802] Checking ssh with "C:\Windows\System32\WindowsPowerShell\v1.0\ssh.exe -V"
+[11:06:54.816] Got error from ssh: spawn C:\Windows\System32\WindowsPowerShell\v1.0\ssh.exe ENOENT
+[11:06:54.816] Checking ssh with "C:\Windows\System32\OpenSSH\ssh.exe -V"
+[11:06:55.336] > OpenSSH_for_Windows_8.6p1, LibreSSL 
+[11:06:55.336] > 3.4.3
+
+[11:06:55.361] Running script with connection command: "C:\Windows\System32\OpenSSH\ssh.exe" -T -D 51087 "o_ubt_ssh108" bash
+[11:06:55.363] Terminal shell path: C:\Windows\System32\cmd.exe
+[11:06:58.066] > a5a401cca1c1: running
+> ]0;C:\Windows\System32\cmd.exe
+[11:06:58.066] Got some output, clearing connection timeout
+[11:06:58.344] > Acquiring lock on /root/.vscode-server/bin/6a995c4f4cc2ced6e3237749973982e751cb0bf9/vscode-remote-lock.root.6a995c4f4cc2ced6e3237749973982e751cb0bf9
+> Installing to /root/.vscode-server/bin/6a995c4f4cc2ced6e3237749973982e751cb0bf9...
+> a5a401cca1c1%%1%%
+> Downloading with wget
+[11:07:12.319] > Download complete
+> a5a401cca1c1%%2%%
+> tar --version:
+[11:07:12.365] > tar (GNU tar) 1.34
+> Copyright (C) 2021 Free Software Foundation, Inc.
+> License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.
+> This is free software: you are free to change and redistribute it.
+> There is NO WARRANTY, to the extent permitted by law.Written by John Gilmore and Jay Fenlason.
+> 
+[11:07:17.690] > Checking /root/.vscode-server/.6a995c4f4cc2ced6e3237749973982e751cb0bf9.log and /root/.vscode-server/.6a995c4f4cc2ced6e3237749973982e751cb0bf9.pid for a running server
+> Running ssh connection command... /root/.vscode-server/bin/6a995c4f4cc2ced6e3237749973982e751cb0bf9/bin/code-server --start-server --host=127.0.0.1 --accept-server-license-terms --enable-remote-auto-shutdown --port=0 --telemetry-level all   &> "/root/.vscode-server/.6a995c4f4cc2ced6e3237749973982e751cb0bf9.log" < /dev/null
+> printenv:
+>     SHELL=/bin/bash
+>     PWD=/root
+>     LOGNAME=root
+>     TZ=Asia/Seoul
+>     MOTD_SHOWN=pam
+>     HOME=/root
+>     VSCODE_AGENT_FOLDER=/root/.vscode-server
+>     SSH_CONNECTION=172.18.0.1 41994 172.18.0.3 22
+>     USER=root
+>     SHLVL=0
+>     SSH_CLIENT=172.18.0.1 41994 22
+>     PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games
+> s:/usr/local/games:/snap/bin
+>     OLDPWD=/root/.vscode-server/bin/6a995c4f4cc2ced6e3237749973982e751cb0bf9    
+>     _=/usr/bin/printenv
+[11:07:17.698] > rm: cannot remove '/root/.vscode-server/.6a995c4f4cc2ced6e3237749973982e751cb0bf
+> f9.token': No such file or directory
+[11:07:17.708] > 
+[11:07:17.731] > Spawned remote server: 1553
+> Waiting for server log...
+[11:07:17.738] > 
+[11:07:17.787] > Waiting for server log...
+[11:07:17.802] > 
+[11:07:17.866] > Waiting for server log...
+> Waiting for server log...
+[11:07:17.893] > 
+>  
+[11:07:17.899] > 
+> *
+> * Visual Studio Code Server
+> *
+> * By using the software, you agree to
+> * the Visual Studio Code Server License Terms (https://aka.ms/vscode-server-lice
+> ense) and
+> * the Microsoft Privacy Statement (https://privacy.microsoft.com/en-US/privacyst
+> tatement).
+> *
+> 
+[11:07:17.914] > 
+> a5a401cca1c1: start
+> SSH_AUTH_SOCK====
+> DISPLAY====
+[11:07:17.922] > 
+> webUiAccessToken====
+> listeningOn==37315==
+> osReleaseId==ubuntu==
+> arch==x86_64==
+> vscodeArch==x64==
+> bitness==64==
+> tmpDir==/tmp==
+> platform==linux==
+> unpackResult==success==
+> didLocalDownload==0==
+> downloadTime==14089==
+> installTime==5339==
+> extInstallTime====
+> serverStartTime==202==
+> connectionToken==11a1a1aa-a111-11aa-a111-11a1111a111a==
+> a5a401cca1c1: end
+[11:07:17.923] Received install output: 
+SSH_AUTH_SOCK====
+DISPLAY====
+webUiAccessToken====
+listeningOn==37315==
+osReleaseId==ubuntu==
+arch==x86_64==
+vscodeArch==x64==
+bitness==64==
+tmpDir==/tmp==
+platform==linux==
+unpackResult==success==
+didLocalDownload==0==
+downloadTime==14089==
+installTime==5339==
+extInstallTime====
+serverStartTime==202==
+connectionToken==11a1a1aa-a111-11aa-a111-11a1111a111a==
+
+[11:07:17.924] Remote server is listening on 37315
+[11:07:17.924] Parsed server configuration: {"serverConfiguration":{"remoteListeningOn":{"port":37315},"osReleaseId":"ubuntu","arch":"x86_64","webUiAccessToken":"","sshAuthSock":"","display":"","tmpDir":"/tmp","platform":"linux","connectionToken":"11a1a1aa-a111-11aa-a111-11a1111a111a"},"downloadTime":14089,"installTime":5339,"serverStartTime":202,"installUnpackCode":"success"}
+[11:07:17.930] Starting forwarding server. localPort 51132 -> socksPort 51087 -> remotePort 37315
+[11:07:17.932] Forwarding server listening on 51132
+[11:07:17.932] Waiting for ssh tunnel to be ready
+[11:07:17.935] [Forwarding server 51132] Got connection 0
+[11:07:17.938] Tunneled 37315 to local port 51132
+[11:07:17.938] Resolved "ssh-remote+o_ubt_ssh108" to "127.0.0.1:51132"
+[11:07:17.947] ------
+
+
+
+
+[11:07:17.957] > 
+[11:07:17.992] [Forwarding server 51132] Got connection 1
+[11:07:18.356] [Forwarding server 51132] Got connection 2
