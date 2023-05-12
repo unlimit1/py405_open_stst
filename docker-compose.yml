@@ -103,4 +103,40 @@ services:
     privileged: true
     devices:
       - /dev/kmsg
-    
+
+  o_ndex:
+    image: prom/node-exporter:latest
+    container_name: o_ndex
+    restart: unless-stopped
+    expose:
+      - 9100
+    ports:
+      - 8083:9100
+
+  o_prmth:
+    image: prom/prometheus:latest
+    container_name: o_prmth
+    ports:
+      - 8084:9090
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/data:/prometheus/data
+    depends_on:
+      - o_cadv
+      - o_ndex
+
+  o_graf:
+    image: grafana/grafana:latest
+    container_name: o_graf
+    restart: unless-stopped
+    links:
+      - o_prmth:prometheus
+    ports:
+      - 8085:3000
+    volumes:
+      - ./grafana/data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=myadmin
+      - GF_USERS_ALLOW_SIGN_UP=false  
