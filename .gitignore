@@ -6,5 +6,5 @@ airflow/logs/
 airflow/dags/__pycache__
 ssh-keys/known_hosts
 prometheus/data
-grafana/data
+#grafana/data
 ssh-keys/known_hosts.old
