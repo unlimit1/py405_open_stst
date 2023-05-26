@@ -21,6 +21,6 @@ dag = DAG(
 
 download_launches = BashOperator(
     task_id="naver_stock_daily_ohlc",
-    bash_command="ssh -o StrictHostKeyChecking=no root@o_ubt python3 /py405_open_stst/py/naver_stock_daily_ohlc.py",
+    bash_command="ssh -o StrictHostKeyChecking=no root@o_ubt python3 -u /py405_open_stst/py/naver_stock_daily_ohlc.py",
     dag=dag,
 )
