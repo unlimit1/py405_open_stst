@@ -107,7 +107,7 @@ services:
   o_ndex:
     image: prom/node-exporter:latest
     container_name: o_ndex
-    restart: unless-stopped
+    #restart: unless-stopped
     expose:
       - 9100
     ports:
@@ -130,7 +130,7 @@ services:
   o_graf:
     image: grafana/grafana:latest
     container_name: o_graf
-    restart: unless-stopped
+    #restart: unless-stopped
     links:
       - o_prmth:prometheus
     ports:

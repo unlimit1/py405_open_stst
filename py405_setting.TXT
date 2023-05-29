@@ -44,4 +44,36 @@ acti.bat  : py405\Scripts\activate
 - git push -u dsm7gl main
 
 
-** Hashicrop Valut설치
+** Hashicrop Valut설치 -> 일단 보류
+
+**************************************************************
+** CentOS8, Synology 에서 docker compose 로 스타트 해보기..
+**************************************************************
+sudo docker ps -a # sudo 권한 한번 열어주고~
+git clone https://github.com/unlimit1/py405_open_stst.git
+cd py405_open_stst
+mkdir airflow/logs
+mkdir mariadb/data
+mkdir mariadb/logs
+mkdir prometheus/data
+sudo chmod 777 -R grafana/data
+sudo chmod 777 -R prometheus/data
+sudo chmod 777 -R airflow/logs
+
+## -- synology 에서만
+sudo mkdir /dev/disk #시놀로지엔 없는 폴더
+sudo mkdir /var/lib/docker #시놀로지엔 없는 폴더
+sudo chown 999:999 -R mariadb/init
+sudo chown 999:999 -R mariadb/logs
+sudo chown 999:999 -R prometheus/prometheus.yml
+sudo docker-compose up -d
+
+# ?? 시놀에서는 o_airf 에서 o_ubt 로 ssh key 로그인이 실패한다.... 왜...
+# -> o_ubt 의 /etc/ssh/sshd_config 의 주석 제거 StrictModes no 처리 
+sudo docker exec o_ubt sed -i 's/#StrictModes yes/StrictModes no/' /etc/ssh/sshd_config
+sudo docker restart o_ubt
+sudo docker exec o_ubt cat /etc/ssh/sshd_config | grep Strict
+# 왜 시놀에서만 이 처리를 해야 하는 거지????
+
+# o_ubt /py405_open_stst/py/naver_stock_hist_ohlc_api.py 첫 1회 실행 시켜야 함
+# airflow DAGs 페이지 2개 dag 의 스위치 온 
