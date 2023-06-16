@@ -10,7 +10,7 @@ df2 = pd.DataFrame(np.random.rand(5, 3))
 print(df1)
 print(df2)
 
-# 두 데이터프레임을 가로 방향으로 합치기
+# 두 데이터프레임을 세로 방향으로 합치기
 result = pd.concat([df1, df2], axis=0)
 
 print(df1)
