@@ -33,7 +33,7 @@ def get_req2():
 
 def get_selenium():
     options = Options()
-    # options.add_argument("--headless")  # 수정된 부분
+    options.add_argument("--headless")  # 수정된 부분
     driver = webdriver.Chrome(options=options)
 
     driver.get(url)

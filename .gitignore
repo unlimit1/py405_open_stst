@@ -8,3 +8,4 @@ ssh-keys/known_hosts
 prometheus/data
 #grafana/data
 ssh-keys/known_hosts.old
+py405/
