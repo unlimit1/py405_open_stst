@@ -22,11 +22,18 @@ RUN apt-get install -y \
     git \
     pkg-config libcairo2-dev 
 
+# TimeZone 설정
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Seoul
-RUN apt-get install -y tzdata \
-    locales \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y tzdata locales
+
+# Selenuim 을 위한 크롬 브라우저 설치
+RUN apt-get install -y unzip xvfb libxi6 libgconf-2-4
+RUN curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add
+RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list
+RUN apt-get update && apt-get -y install google-chrome-stable
+
+RUN rm -rf /var/lib/apt/lists/*
 
 # SSH 설정
 RUN echo 'root:qwer!@34' | chpasswd

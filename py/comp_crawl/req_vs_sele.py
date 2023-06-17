@@ -33,7 +33,9 @@ def get_req2():
 
 def get_selenium():
     options = Options()
-    options.add_argument("--headless")  # 수정된 부분
+    options.add_argument("--no-sandbox") #Docker 컨테이너나 리눅스에서 제한된 권한으로 크롬을 실행할 때 필요한 옵션들
+    options.add_argument("--headless")
+    options.add_argument("--disable-dev-shm-usage")
     driver = webdriver.Chrome(options=options)
 
     driver.get(url)
