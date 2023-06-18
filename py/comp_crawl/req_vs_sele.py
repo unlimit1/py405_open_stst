@@ -9,7 +9,8 @@ from selenium.webdriver.chrome.options import Options
 import time
 
 
-url = 'https://finance.naver.com/item/coinfo.nhn?code=005930&target=finsum_more'
+#url = 'https://finance.naver.com/item/coinfo.nhn?code=005930&target=finsum_more'
+url="https://navercomp.wisereport.co.kr/v2/company/c1010001.aspx?cmp_cd=005930&amp;target=finsum_more"
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
 }
@@ -33,9 +34,9 @@ def get_req2():
 
 def get_selenium():
     options = Options()
-    options.add_argument("--no-sandbox") #Docker 컨테이너나 리눅스에서 제한된 권한으로 크롬을 실행할 때 필요한 옵션들
-    options.add_argument("--headless")
-    options.add_argument("--disable-dev-shm-usage")
+    # options.add_argument("--no-sandbox") #Docker 컨테이너나 리눅스에서 제한된 권한으로 크롬을 실행할 때 필요한 옵션들
+    # options.add_argument("--headless") #Docker 컨테이너나 리눅스에서 제한된 권한으로 크롬을 실행할 때 필요한 옵션들
+    # options.add_argument("--disable-dev-shm-usage") #Docker 컨테이너나 리눅스에서 제한된 권한으로 크롬을 실행할 때 필요한 옵션들
     driver = webdriver.Chrome(options=options)
 
     driver.get(url)

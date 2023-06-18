@@ -1,5 +1,8 @@
-# URL = 'http://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201020202'
-r = requests.get(URL)
+import requests
+import pandas as pd
+
+url = "https://navercomp.wisereport.co.kr/v2/company/c1010001.aspx?cmp_cd=005930&amp;target=finsum_more"
+r = requests.get(url)
 
 for i,df in enumerate(pd.read_html(r.text)):
   print(f"[{i}]------------------------------------------- \n{df}")
