@@ -30,7 +30,7 @@ def get_code():
 # financial_indicator 값을 가져오는 함수
 def get_fi(code):
     url = f"https://navercomp.wisereport.co.kr/v2/company/c1010001.aspx?cmp_cd={code[0]}&amp;target=finsum_more"
-    #print(f"url : {url}")
+    print(f"url : {url}")
     options = Options()
     options.add_argument("--no-sandbox") #Docker 컨테이너나 리눅스에서 제한된 권한으로 크롬을 실행할 때 필요한 옵션들
     options.add_argument("--headless") #Docker 컨테이너나 리눅스에서 제한된 권한으로 크롬을 실행할 때 필요한 옵션들
@@ -38,38 +38,46 @@ def get_fi(code):
 
     driver = webdriver.Chrome(options=options)
     driver.get(url)
-    time.sleep(1)     # 페이지가 로드될 때까지 대기
+    time.sleep(0.1)     # 페이지가 로드될 때까지 대기
 
-    element = driver.find_elements(By.XPATH,'//*[@id="cns_Tab22"]'); 
-    element[0].click() # 분기 탭 클릭
-    page_source = driver.page_source # HTML 가져오기
-    tables = pd.read_html(page_source) # pandas read_html 로 html 내 테이블 모두 가져오기
-    fi = tables[12] # fi(financial indicator) data_frame
-    # read_html 로 크롤링한 df 가공
-    fi.columns = fi.columns.droplevel(0) #멀티컬럼에서 불필요 첫 행 컬럼명 부분 ("분기") 제거
-    fi.set_index(fi.columns[0],inplace=True) #재무지표명(첫열) 을 인덱스로 반영
-    fi.index.rename('주요재무정보', inplace=True) #인덱스 명 수정
+    fi_tab_xpaths = [('//*[@id="cns_Tab21"]','연간'),('//*[@id="cns_Tab22"]','분기')] # 연간, 분기
+    
+    l_df = [] # 재무지표를 append 하여 임시 보관할 list
+    for fi_tab_xpath in fi_tab_xpaths:
+        try: # 재무지표 테이블이 없을 때, 해당 element 가 없어서 None 리턴... 클릭시 오류
+            element = driver.find_elements(By.XPATH,fi_tab_xpath[0]); 
+            element[0].click() # 연간/분기 탭 클릭
+        except IndexError:
+            print(f"Tab click error : {code}")
+            return pd.DataFrame()
+        
+        page_source = driver.page_source # HTML 가져오기
+        tables = pd.read_html(page_source) # pandas read_html 로 html 내 테이블 모두 가져오기
+        fi = tables[12] # fi(financial indicator) data_frame
+        # read_html 로 크롤링한 df 가공
+        fi.columns = fi.columns.droplevel(0) #멀티컬럼에서 불필요 첫 행 컬럼명 부분 ("분기") 제거
+        fi.set_index(fi.columns[0],inplace=True) #재무지표명(첫열) 을 인덱스로 반영
+        fi.index.rename('주요재무정보', inplace=True) #인덱스 명 수정
 
-    # 테이블 저장을 위해 각 행,렬, 값으로 분해
-    cols = list(fi.columns)
-    inds = list(fi.index)
+        # 테이블 저장을 위해 각 행,렬, 값으로 분해
+        cols = list(fi.columns)
+        inds = list(fi.index)
 
-    l_df = []
-    for col in cols:
-        for ind in inds:
-            # crawling_datetime,stock_code,financial_indicator_name,quarter_ym,year_quarter_cl,accounting_standard_name,prediction_yn,financial_indicator_value,crawling_origin_text
-            # crawling_datetime
-            stock_code = code[0]
-            financial_indicator_name = ind
-            quarter_ym = col[0:7].replace('/','')
-            year_quarter_cl = '분기'
-            accounting_standard_name = col[-7:-1]
-            prediction_yn = 'Y' if col[8] == 'E' else 'N'
-            financial_indicator_value = fi.loc[ind, col]  # return 시 read_html 의 nan 처리!
-            crawling_origin_text = f"{col}|{ind}|{fi.loc[ind, col]}"
-            #print(f"df:[{stock_code},{financial_indicator_name},{quarter_ym},{year_quarter_cl},{accounting_standard_name},{prediction_yn},{financial_indicator_value},{crawling_origin_text}]")
-            l_df.append([stock_code, financial_indicator_name,quarter_ym,year_quarter_cl,accounting_standard_name,prediction_yn,financial_indicator_value,crawling_origin_text])
-
+        for col in cols:
+            for ind in inds:
+                # crawling_datetime,stock_code,financial_indicator_name,quarter_ym,year_quarter_cl,accounting_standard_name,prediction_yn,financial_indicator_value,crawling_origin_text
+                # crawling_datetime
+                stock_code = code[0]
+                financial_indicator_name = ind
+                quarter_ym = col[0:7].replace('/','')
+                year_quarter_cl = fi_tab_xpath[1] # '연간','분기'
+                accounting_standard_name = col[-7:-1]
+                prediction_yn = 'Y' if col[8] == 'E' else 'N'
+                financial_indicator_value = fi.loc[ind, col]  # return 시 read_html 의 nan 처리!
+                crawling_origin_text = f"{col}|{ind}|{fi.loc[ind, col]}"
+                #print(f"df:[{stock_code},{financial_indicator_name},{quarter_ym},{year_quarter_cl},{accounting_standard_name},{prediction_yn},{financial_indicator_value},{crawling_origin_text}]")
+                l_df.append([stock_code, financial_indicator_name,quarter_ym,year_quarter_cl,accounting_standard_name,prediction_yn,financial_indicator_value,crawling_origin_text])
+                #print(len(l_df), l_df[-2:])   
     driver.quit()
     # return pd.DataFrame(l_df).fillna(value=Null) # -> raise ValueError("Must specify a fill 'value' or 'method'.")
     return pd.DataFrame(l_df).astype(object).where(pd.notnull(l_df), None) # nan 값 처리!!
@@ -83,19 +91,21 @@ def get_all_fi():
     print(f'종목별 financial indecator value 수집 시작')
     for i, code in enumerate(code_list):
         fi = get_fi(code)
+        if fi.empty: continue # 재무지표 데이터가 없는 경우 skip
         fi.columns=['stock_code', 'financial_indicator_name','quarter_ym','year_quarter_cl','accounting_standard_name','prediction_yn','financial_indicator_value','crawling_origin_text']
         #df = df.set_index('date')
         #df.index = pd.to_datetime(df.index)
         all_fi = pd.concat([all_fi, fi], axis=0)
-        if i%10 == 0 : print('.', end='', flush=True) 
-        if i>0 and i%100 == 0 : print(i, end='', flush=True) 
+        # if i%10 == 0 : print('.', end='\n', flush=True) 
+        # if i>0 and i%3 == 0 : break  # 테스트용... 적은 범위 수행 위해
+        if i>0 and i%10 == 0 : print(f"{i}/{len(code_list)}", end='\n', flush=True) 
     print(f'종목별 financial indecator value 수집 끝')
     return all_fi
 
 # 실행 시간 측정
 start_time = datetime.datetime.now()
 
-# 모든 종목의 ohlcv 데이터를 가져옴
+# 모든 종목의 finanacial indicator 데이터를 가져옴
 all_fi = get_all_fi().reset_index(drop=True)
 
 # 실행 시간 출력

@@ -19,12 +19,12 @@ driver.get(url)
 time.sleep(1)
 
 # 분기 탭 클릭
-element = driver.find_elements(By.XPATH,'//*[@id="cns_Tab22"]')
+element = driver.find_elements(By.XPATH,'//*[@id="cns_Tab21"]')
 element[0].click()
 
 # 투자의견 컨센서스 펼치기
-element = driver.find_elements(By.CLASS_NAME ,'btn_more')
-element[0].click()
+# element = driver.find_elements(By.CLASS_NAME ,'btn_more')
+# element[0].click()
 
 # HTML 가져오기
 page_source = driver.page_source
@@ -32,9 +32,10 @@ page_source = driver.page_source
 # pandas read_html 로 html 내 테이블 모두 가져오기
 tables = pd.read_html(page_source)
 
-# for i,df in enumerate(tables):
-#   print(f"[{i}]------------------------------------------- \n{df}")
+for i,df in enumerate(tables):
+  print(f"[{i}]------------------------------------------- \n{df}")
 
+오류
 # FS(financial summary) df
 fs = tables[12]
 print(f'fs : -----------------------------\n{fs}')

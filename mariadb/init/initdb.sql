@@ -32,3 +32,17 @@ CREATE TABLE finance.heartbeat_by_airflow (
     db_datetime DATETIME(6),
     INDEX idx_app_datetime (app_datetime desc)
 );
+
+CREATE TABLE finance.naver_financial_indicator_value (
+  crawling_datetime datetime NOT NULL, 
+  stock_code VARCHAR(20) NOT NULL,
+  financial_indicator_name varchar(100) NOT NULL,
+  quarter_ym varchar(10) NOT NULL,
+  year_quarter_cl varchar(10) NOT NULL,
+  accounting_standard_name varchar(20) NOT NULL,
+  prediction_yn varchar(10) NOT NULL,
+  financial_indicator_value double,
+  crawling_origin_text VARCHAR(200),
+  PRIMARY KEY (crawling_datetime,stock_code,financial_indicator_name,quarter_ym,year_quarter_cl,accounting_standard_name,prediction_yn)
+  ,INDEX idx01 (stock_code,financial_indicator_name,quarter_ym,year_quarter_cl,accounting_standard_name,prediction_yn)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
