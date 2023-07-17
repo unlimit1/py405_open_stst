@@ -14,7 +14,7 @@ dag = DAG(
     dag_id='naver_stock_financial_indicator_value_hist',
     description="네이버 증권의 기업 재무지표 연간/분기 별 데이터 크롤링",
     default_args=default_args,
-    schedule_interval='05 00 * * *',
+    schedule_interval='0 19 * * *', # 0분 3시   매주일요일 -> 매일
     catchup=True,
     #max_active_runs=1,
 )

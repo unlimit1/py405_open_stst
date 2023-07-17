@@ -80,7 +80,7 @@ def get_fi(code):
                 #print(len(l_df), l_df[-2:])   
     driver.quit()
     # return pd.DataFrame(l_df).fillna(value=Null) # -> raise ValueError("Must specify a fill 'value' or 'method'.")
-    return pd.DataFrame(l_df).astype(object).where(pd.notnull(l_df), None) # nan 값 처리!!
+    return pd.DataFrame(l_df).astype(object).where(pd.notnull(l_df), None) # nan 을 None 으로 바꿔 NULL로 insert되도록 처리!!
 
 # 모든 종목의 financial indicator 데이터를 가져오는 함수
 def get_all_fi():
@@ -119,14 +119,8 @@ curs = conn.cursor()
 
 
 print(f'all_fi 크롤링 건수 : {len(all_fi)} rows')
-#     # print(all_ohlcv.iloc[200:210])
-#     # print(all_ohlcv.iloc[200:210,2].apply(lambda x: len(x)))
-#     # all_ohlcv = all_ohlcv.dropna(subset=['date']) # 이 문장으로 처리가 안되어 아래와 같이 코드 수정
-# all_ohlcv = all_ohlcv[all_ohlcv['date'] != '']
-# print(f'all_ohlcv 거래일자 데이터 없는 건 삭제 처리 후 남은 건수 : {len(all_ohlcv)} rows')
 
 ins_values = [tuple(x) for x in all_fi.values] #df -> tuble list 로 변환
-for i in ins_values: print(i)
 ins_sql = """
 replace into finance.naver_financial_indicator_value
 (
