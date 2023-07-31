@@ -6,3 +6,4 @@ scrape_configs:
     - o_cadv:8080      
     - o_ndex:9100
     - localhost:9090
+    - o_myex:9104

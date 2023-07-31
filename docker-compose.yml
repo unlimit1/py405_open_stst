@@ -126,6 +126,7 @@ services:
     depends_on:
       - o_cadv
       - o_ndex
+      - o_myex
 
   o_graf:
     image: grafana/grafana:latest
@@ -140,3 +141,20 @@ services:
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=myadmin
       - GF_USERS_ALLOW_SIGN_UP=false  
+
+  o_myex:
+    image: prom/mysqld-exporter:latest
+    container_name: o_myex
+    environment:
+      - DATA_SOURCE_NAME="root:${MARIADB_ROOT_PASSWORD}@tcp(o_maria:3666)/"
+    command:
+      - '--collect.auto_increment.columns'
+      - '--collect.binlog_size'
+      - '--collect.global_status'
+      - '--collect.global_variables'
+      - '--collect.info_schema.innodb_metrics'
+    restart: always
+    expose:
+      - 9104
+    ports:
+      - 8086:9104
